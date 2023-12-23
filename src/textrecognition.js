@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Tesseract from 'tesseract.js';
 
 const TextRecognition = ({ selectedImage }) => {
-  const [recognizedText, setRecognizedText] = useState('');
+  const [recognizedText, setRecognizedText] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -13,7 +13,32 @@ const TextRecognition = ({ selectedImage }) => {
           setLoading(true);
           const result = await Tesseract.recognize(selectedImage, 'eng');
           console.log(result);
-          setRecognizedText(result.data.text);
+
+          const lines = result.data.text.split('\n');
+
+          // Extract identification number
+          const identificationNumberLine = lines[1];
+          const identificationNumber = identificationNumberLine.slice(-13);
+
+          // Extract name
+          const nameLine = lines.find(line => line.toLowerCase().includes('name'));
+          const name = nameLine ? nameLine.split(' ').pop() : '';
+
+          // Extract last name
+          const lastNameLine = lines.find(line => line.toLowerCase().includes('last name'));
+          const lastName = lastNameLine ? lastNameLine.split(' ').pop() : '';
+
+          // Extract date of birth
+          const dobLine = lines.find(line => line.toLowerCase().includes('date of birth'));
+          const dobMatch = dobLine.match(/(\d{2}) (\w{3})\. (\d{4})/);
+          const dateOfBirth = dobMatch ? `${dobMatch[1]} ${dobMatch[2]} ${dobMatch[3]}` : '';
+
+          setRecognizedText({
+            identification_number: identificationNumber,
+            name: name,
+            last_name: lastName,
+            date_of_birth: dateOfBirth,
+          });
         } catch (err) {
           console.error(err);
           setError('Error during text recognition');
@@ -30,8 +55,11 @@ const TextRecognition = ({ selectedImage }) => {
     <div>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      <h2>Recognized Text:</h2>
-      <p>{recognizedText}</p>
+      <h2>Extracted Information:</h2>
+      <p>ID Number: {recognizedText.identification_number}</p>
+      <p>Name: {recognizedText.name}</p>
+      <p>Last Name: {recognizedText.last_name}</p>
+      <p>Date of Birth: {recognizedText.date_of_birth}</p>
     </div>
   );
 };
