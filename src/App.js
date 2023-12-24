@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import TextRecognition from './textrecognition'; // Import TextRecognition component
+import TextRecognition from './textrecognition'; // Assuming correct import path
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -16,8 +16,11 @@ function App() {
     formData.append('idCardImage', selectedFile);
 
     try {
-      const response = await axios.post('http://localhost:3001/api/ocr', formData);
-      setOcrResult(response.data.ocrResult);
+      // Send the selected file to the Express backend
+      await axios.post('http://localhost:3001/api/ocr', formData);
+
+      // Assuming you want to display a success message or update the UI in some way
+      setOcrResult('OCR data sent to the server');
     } catch (error) {
       console.error(error);
       setOcrResult('OCR failed');
@@ -28,8 +31,7 @@ function App() {
     <div>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload</button>
-      <TextRecognition selectedImage={selectedFile} /> {/* Render TextRecognition with selectedImage prop */}
-      
+      <TextRecognition selectedImage={selectedFile} ocrResult={ocrResult} />
     </div>
   );
 }

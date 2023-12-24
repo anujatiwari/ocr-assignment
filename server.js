@@ -1,19 +1,13 @@
-// server.js
 const express = require('express');
-const bodyParser = require('body-parser');
-const connectDB = require('./db');
-const ocrRoutes = require('./routes/ocrRoutes');
-const historyRoutes = require('./routes/historyRoutes');
+const mongoose = require('mongoose');
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = 3001;
 
-app.use(bodyParser.json());
-
-connectDB();
-
-app.use('/api', ocrRoutes);
-app.use('/api', historyRoutes);
+mongoose.connect(
+  'mongodb+srv://anujatiwari13:Anuja1234@cluster0.mongodb.net/orc',
+  { useNewUrlParser: true, useUnifiedTopology: true }
+);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
