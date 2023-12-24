@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Tesseract from 'tesseract.js';
+import axios from 'axios';
 
 const TextRecognition = ({ selectedImage }) => {
   const [recognizedText, setRecognizedText] = useState({});
@@ -34,6 +35,13 @@ const TextRecognition = ({ selectedImage }) => {
           const dateOfBirth = dobMatch ? `${dobMatch[1]} ${dobMatch[2]} ${dobMatch[3]}` : '';
 
           setRecognizedText({
+            identification_number: identificationNumber,
+            name: name,
+            last_name: lastName,
+            date_of_birth: dateOfBirth,
+          });
+          // Send OCR data to the backend API
+          await axios.post('http://localhost:3001/api/ocr', {
             identification_number: identificationNumber,
             name: name,
             last_name: lastName,
