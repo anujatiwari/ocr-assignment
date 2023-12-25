@@ -24,6 +24,7 @@ This OCR (Optical Character Recognition) application extracts information from T
 4. **Run the Application:**
 
     ```bash
+    cd src
     npm start
     ```
 
