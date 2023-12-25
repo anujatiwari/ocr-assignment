@@ -1,3 +1,4 @@
+// TextRecognition.js
 import React, { useEffect, useState } from 'react';
 import Tesseract from 'tesseract.js';
 import axios from 'axios';
@@ -40,8 +41,9 @@ const TextRecognition = ({ selectedImage }) => {
             last_name: lastName,
             date_of_birth: dateOfBirth,
           });
+
           // Send OCR data to the backend API
-          await axios.post('http://localhost:3001/api/ocr', {
+          await axios.post('http://localhost:3001/api/Cluster0', {
             identification_number: identificationNumber,
             name: name,
             last_name: lastName,
@@ -49,7 +51,7 @@ const TextRecognition = ({ selectedImage }) => {
           });
         } catch (err) {
           console.error(err);
-          setError('Error during text recognition');
+          //setError('Error during text recognition');
         } finally {
           setLoading(false);
         }
@@ -63,11 +65,19 @@ const TextRecognition = ({ selectedImage }) => {
     <div>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      <h2>Extracted Information:</h2>
-      <p>ID Number: {recognizedText.identification_number}</p>
-      <p>Name: {recognizedText.name}</p>
-      <p>Last Name: {recognizedText.last_name}</p>
-      <p>Date of Birth: {recognizedText.date_of_birth}</p>
+      {Object.keys(recognizedText).length > 0 && (
+        <>
+          <h2>Extracted Information:</h2>
+          {recognizedText.identification_number && (
+            <p>{`Identification Number: ${recognizedText.identification_number}`}</p>
+          )}
+          {recognizedText.name && <p>{`Name: ${recognizedText.name}`}</p>}
+          {recognizedText.last_name && <p>{`Last Name: ${recognizedText.last_name}`}</p>}
+          {recognizedText.date_of_birth && (
+            <p>{`Date of Birth: ${recognizedText.date_of_birth}`}</p>
+          )}
+        </>
+      )}
     </div>
   );
 };

@@ -5,6 +5,7 @@ const ocrSchema = new mongoose.Schema({
   name: String,
   last_name: String,
   date_of_birth: String,
+  timestamp: { type: Date, default: Date.now },
 });
 
 const OCRModel = mongoose.model('OCR', ocrSchema);
