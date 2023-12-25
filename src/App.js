@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import TextRecognition from './textrecognition.js';
+import TextRecognition from './textrecognition';
 import History from './History';
 
 function App() {
@@ -12,7 +12,15 @@ function App() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setSelectedFile(file);
+
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        setUploadError('Caution: Please upload a file less than 2MB');
+      } else {
+        setSelectedFile(file);
+        setUploadError(''); // Clear any previous error messages
+      }
+    }
   };
 
   const handleUpload = async () => {
@@ -21,7 +29,7 @@ function App() {
       formData.append('idCardImage', selectedFile);
 
       try {
-        await axios.post('http://localhost:3001/api/ocr', formData);
+        await axios.post('http://localhost:3001/api/Cluster0', formData);
         setOcrResult('OCR data saved successfully');
       } catch (error) {
         console.error(error);
@@ -32,11 +40,6 @@ function App() {
     }
   };
 
-  // Display a caution message if the file size exceeds 2MB
-  const cautionMessage = selectedFile && selectedFile.size > 2 * 1024 * 1024
-    ? 'Caution: Please upload a picture less than 2MB'
-    : '';
-
   return (
     <div className="app-container">
       <div className="center-content">
@@ -44,8 +47,7 @@ function App() {
         <div className="upload-section">
           <input type="file" onChange={handleFileChange} />
           <button onClick={handleUpload}>Upload</button>
-          {uploadError && <p className="error-message">{uploadError}</p>}
-          {cautionMessage && <p className="caution-message">{cautionMessage}</p>}
+          {uploadError && <div className="caution-container"><p className="caution-message">{uploadError}</p></div>}
         </div>
         <TextRecognition selectedImage={selectedFile} ocrResult={ocrResult} />
         <History />

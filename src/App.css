@@ -52,3 +52,18 @@ button {
 button:hover {
   background-color: #45a049;
 }
+
+
+.caution-container {
+  background-color: #ffcccb; /* Light red background for caution */
+  padding: 10px;
+  border: 1px solid #f08080; /* Darker red border for caution */
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.caution-message {
+  color: #ff0000; /* Red text color for caution */
+  margin: 0; /* Remove default margin for <p> */
+}
+

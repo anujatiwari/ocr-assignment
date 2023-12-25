@@ -1,7 +1,7 @@
 // ocrRouter.js
 const express = require('express');
 const router = express.Router();
-const OCRModel = require('./ocrRoutes.js'); // Adjust the path accordingly
+const OCRModel = require('./ocrRoutes.js'); 
 
 // Route to handle OCR data upload
 router.post('/api/ocr', async (req, res) => {
