@@ -47,7 +47,7 @@ function App() {
           setNetworkError(`Server error: ${error.response.status}`);
         } else if (error.request) {
           // The request was made but no response was received
-          setNetworkError('No response from the server');
+          //setNetworkError('No response from the server');
         } else {
           // Something happened in setting up the request that triggered an Error
           setNetworkError('Error setting up the request');

@@ -53,7 +53,7 @@ const TextRecognition = ({ selectedImage }) => {
           });
         } catch (err) {
           console.error(err);
-          setError('Error during text recognition');
+          //setError('Error during text recognition');
         } finally {
           setLoading(false);
         }
