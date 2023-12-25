@@ -7,8 +7,7 @@ This OCR (Optical Character Recognition) application extracts information from T
 1. **Clone the Repository:**
 
     ```bash
-    git clone https://github.com/your-username/ocr-application.git
-    cd ocr-application
+    https://github.com/anujatiwari/ocr-assignment.git
     ```
 
 2. **Install Dependencies:**
